@@ -1,69 +1,67 @@
 # Credit Card Fraud Detection
 
-以機器學習方法偵測信用卡詐欺交易。資料來源為 [Kaggle Credit Card Fraud Detection](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) 公開資料集。
+A machine learning project to detect fraudulent credit card transactions using the [Kaggle Credit Card Fraud Detection](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) dataset.
 
-## 專案目標
+## Project Goals
 
-- 對極度不平衡的交易資料（詐欺比例僅 ~0.17%）建立分類模型
-- 比較 Logistic Regression、Random Forest、XGBoost 在 PR-AUC 上的表現
-- 透過 threshold tuning 找出最佳的 Precision / Recall 權衡點
+- Build a binary classifier on a highly imbalanced dataset (~0.17% fraud rate)
+- Compare Logistic Regression, Random Forest, and XGBoost using PR-AUC as the primary metric
+- Apply threshold tuning to optimize the Precision / Recall trade-off for real-world deployment
 
-## 資料集
+## Dataset
 
-| 欄位 | 說明 |
+| Column | Description |
 |---|---|
-| `Time` | 距第一筆交易的秒數 |
-| `V1`–`V28` | PCA 轉換後的匿名特徵 |
-| `Amount` | 交易金額 |
-| `Class` | 目標標籤：`0` = 正常，`1` = 詐欺 |
+| `Time` | Seconds elapsed since the first transaction |
+| `V1`–`V28` | Anonymized PCA-transformed features |
+| `Amount` | Transaction amount |
+| `Class` | Target label: `0` = legitimate, `1` = fraud |
 
-- 共 284,807 筆交易，詐欺僅 492 筆（0.17%）
-- 因檔案大小 144MB 超過 GitHub 限制，**不納入版本控制**，請手動下載後放置於 `data/raw/creditcard.csv`
+- 284,807 total transactions — only 492 are fraudulent (0.17%)
+- The raw CSV file is 144MB and exceeds GitHub's file size limit, so **it is not tracked in version control**. Download it manually from Kaggle and place it at `data/raw/creditcard.csv`.
 
-## 專案結構
+## Project Structure
 
 ```
 ├── data/
-│   ├── raw/              # 原始資料（gitignored）
-│   └── processed/        # 前處理後的訓練 / 測試集（gitignored）
+│   ├── raw/                   # Raw data (gitignored)
+│   └── processed/             # Preprocessed train/test splits (gitignored)
 ├── notebooks/
-│   ├── 01_eda.ipynb          # 探索性資料分析
-│   ├── 02_preprocessing.ipynb # 特徵工程與 SMOTE 處理
-│   ├── 03_modeling.ipynb      # 模型訓練與交叉驗證
-│   └── 04_evaluation.ipynb    # 模型評估與 threshold tuning
-├── src/                  # 可重用 Python 模組
-├── models/               # 訓練後的模型檔（gitignored）
-├── reports/figures/      # 輸出的圖表
+│   ├── 01_eda.ipynb           # Exploratory data analysis
+│   ├── 02_preprocessing.ipynb # Feature scaling and SMOTE resampling
+│   ├── 03_modeling.ipynb      # Model training and cross-validation
+│   └── 04_evaluation.ipynb    # Model evaluation and threshold tuning
+├── src/                       # Reusable Python modules
+├── models/                    # Saved model files (gitignored)
+├── reports/figures/           # Generated plots and charts
 └── CLAUDE.md
 ```
 
-## 執行流程
+## Getting Started
 
-> 請依序執行 notebook，每個 notebook 的輸出是下一個的輸入。
-
-### 環境安裝
+### Install Dependencies
 
 ```bash
 pip install pandas numpy matplotlib seaborn scikit-learn imbalanced-learn xgboost joblib
 ```
 
-### 1. 下載資料
+### Download the Dataset
 
-前往 [Kaggle 資料集頁面](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) 下載 `creditcard.csv`，放置於：
+Go to the [Kaggle dataset page](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud), download `creditcard.csv`, and place it at:
 
 ```
 data/raw/creditcard.csv
 ```
 
-### 2. 依序執行 Notebooks
+### Run the Notebooks in Order
 
-| 順序 | Notebook | 說明 |
+| Step | Notebook | Description |
 |---|---|---|
-| 1 | `01_eda.ipynb` | 資料探索、class imbalance 視覺化、特徵分布 |
-| 2 | `02_preprocessing.ipynb` | 標準化、train/test split、SMOTE，輸出至 `data/processed/` |
-| 3 | `03_modeling.ipynb` | 多模型交叉驗證（PR-AUC），儲存最佳模型至 `models/` |
-| 4 | `04_evaluation.ipynb` | Confusion matrix、PR curve、threshold tuning、feature importance |
+| 1 | `01_eda.ipynb` | Explore class imbalance, feature distributions, and correlations |
+| 2 | `02_preprocessing.ipynb` | Scale features, stratified split, apply SMOTE, export to `data/processed/` |
+| 3 | `03_modeling.ipynb` | Train and cross-validate multiple models, save the best to `models/` |
+| 4 | `04_evaluation.ipynb` | Confusion matrix, PR curve, threshold tuning, feature importance |
 
-## 評估指標
+## Evaluation Metrics
 
-因資料嚴重不平衡，使用 **PR-AUC**（Precision-Recall AUC）與 **F1-score** 作為主要指標，而非 Accuracy。
+Due to the severe class imbalance, **PR-AUC** (Precision-Recall AUC) and **F1-score** are used as the primary evaluation metrics rather than accuracy.
