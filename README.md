@@ -27,13 +27,14 @@ A machine learning project to detect fraudulent credit card transactions using t
 │   ├── raw/                   # Raw data (gitignored)
 │   └── processed/             # Preprocessed train/test splits (gitignored)
 ├── notebooks/
-│   ├── 01_eda.ipynb           # Exploratory data analysis
-│   ├── 02_preprocessing.ipynb # Feature scaling and SMOTE resampling
-│   ├── 03_modeling.ipynb      # Model training and cross-validation
-│   └── 04_evaluation.ipynb    # Model evaluation and threshold tuning
+│   ├── 01_eda.ipynb                 # Exploratory data analysis
+│   ├── 02_feature_engineering.ipynb # Significance testing, correlation, feature selection
+│   ├── 03_preprocessing.ipynb       # Feature scaling and SMOTE resampling
+│   ├── 04_modeling.ipynb            # Model training and cross-validation
+│   └── 05_evaluation.ipynb          # Model evaluation and threshold tuning
 ├── src/                       # Reusable Python modules
 ├── models/                    # Saved model files (gitignored)
-├── reports/figures/           # Generated plots and charts
+├── reports/<notebook_name>/   # Generated plots and tables, one folder per notebook
 └── CLAUDE.md
 ```
 
@@ -42,7 +43,7 @@ A machine learning project to detect fraudulent credit card transactions using t
 ### Install Dependencies
 
 ```bash
-pip install pandas numpy matplotlib seaborn scikit-learn imbalanced-learn xgboost joblib
+pip install pandas numpy scipy matplotlib seaborn scikit-learn imbalanced-learn xgboost joblib optuna shap
 ```
 
 ### Download the Dataset
@@ -57,10 +58,11 @@ data/raw/creditcard.csv
 
 | Step | Notebook | Description |
 |---|---|---|
-| 1 | `01_eda.ipynb` | Explore class imbalance, feature distributions, and correlations |
-| 2 | `02_preprocessing.ipynb` | Scale features, stratified split, apply SMOTE, export to `data/processed/` |
-| 3 | `03_modeling.ipynb` | Train and cross-validate multiple models, save the best to `models/` |
-| 4 | `04_evaluation.ipynb` | Confusion matrix, PR curve, threshold tuning, feature importance |
+| 1 | `01_eda.ipynb` | Explore class imbalance and per-class feature distributions |
+| 2 | `02_feature_engineering.ipynb` | Significance testing, correlation heatmap, and multicollinearity-aware feature selection — exports `data/processed/selected_features.json` |
+| 3 | `03_preprocessing.ipynb` | Scale and stratified-split both a full-feature and a selected-feature variant (no resampling yet) — exports `train_full`/`test_full`/`train_selected`/`test_selected` |
+| 4 | `04_modeling.ipynb` | Compare feature sets × imbalance strategies (SMOTE, oversampling, undersampling, `class_weight`) × models, Bayesian-tune (Optuna) the top candidates, and find the minimal feature count that preserves PR-AUC — saves the best model and its metadata to `models/` |
+| 5 | `05_evaluation.ipynb` | PR-AUC (headline metric), threshold tuning, a single confusion matrix, feature importance, and SHAP-based interpretability |
 
 ## Evaluation Metrics
 

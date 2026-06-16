@@ -11,10 +11,10 @@ Kaggle credit card fraud detection project. The goal is to build a model that cl
 ```
 data/raw/          ← creditcard.csv (gitignored, download from Kaggle)
 data/processed/    ← feature-engineered or resampled datasets
-notebooks/         ← Jupyter notebooks for EDA and modeling
+notebooks/         ← Jupyter notebooks for EDA, feature engineering, and modeling
 src/               ← reusable Python modules
 models/            ← serialized trained models (gitignored)
-reports/figures/   ← plots and evaluation outputs
+reports/<notebook_name>/ ← plots and outputs, organized per notebook
 ```
 
 ## Dataset
