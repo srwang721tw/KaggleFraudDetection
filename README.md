@@ -43,7 +43,9 @@ A machine learning project to detect fraudulent credit card transactions using t
 ### Install Dependencies
 
 ```bash
-pip install pandas numpy scipy matplotlib seaborn scikit-learn imbalanced-learn xgboost joblib optuna shap
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 ```
 
 ### Download the Dataset

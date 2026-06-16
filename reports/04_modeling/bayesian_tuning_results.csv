@@ -1,0 +1,4 @@
+feature_set,imbalance_strategy,model,best_cv_prauc,best_params
+full,random_over,xgboost,0.855596642106204,"{""n_estimators"": 203, ""max_depth"": 6, ""learning_rate"": 0.15153047541856113, ""subsample"": 0.9129704722857716, ""colsample_bytree"": 0.8839199210155646}"
+selected,class_weight,xgboost,0.8513396757372469,"{""n_estimators"": 255, ""max_depth"": 9, ""learning_rate"": 0.07861477820544398, ""subsample"": 0.9965479283739146, ""colsample_bytree"": 0.5729786593970411}"
+full,smote,xgboost,0.8479538414112605,"{""n_estimators"": 167, ""max_depth"": 6, ""learning_rate"": 0.17760963699722712, ""subsample"": 0.5063043842363855, ""colsample_bytree"": 0.8453251842043952}"
