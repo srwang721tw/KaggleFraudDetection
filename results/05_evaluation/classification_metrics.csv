@@ -1,0 +1,8 @@
+Metric,Value
+Accuracy,0.9996
+F1-Score,0.8804
+Recall (Sensitivity),0.8265
+Specificity,0.9999
+PPV (Precision),0.9419
+NPV,0.9997
+Youden's Index,0.8264

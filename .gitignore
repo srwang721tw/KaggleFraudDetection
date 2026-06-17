@@ -16,5 +16,8 @@ venv/
 # Jupyter
 .ipynb_checkpoints/
 
+# CatBoost training artifacts
+catboost_info/
+
 # macOS
 .DS_Store

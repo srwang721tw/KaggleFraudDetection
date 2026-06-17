@@ -25,16 +25,16 @@ A machine learning project to detect fraudulent credit card transactions using t
 ```
 ├── data/
 │   ├── raw/                   # Raw data (gitignored)
-│   └── processed/             # Preprocessed train/test splits (gitignored)
+│   └── processed/             # Preprocessed train/val/test splits (gitignored)
 ├── notebooks/
 │   ├── 01_eda.ipynb                 # Exploratory data analysis
 │   ├── 02_feature_engineering.ipynb # Significance testing, correlation, feature selection
-│   ├── 03_preprocessing.ipynb       # Feature scaling and SMOTE resampling
-│   ├── 04_modeling.ipynb            # Model training and cross-validation
-│   └── 05_evaluation.ipynb          # Model evaluation and threshold tuning
+│   ├── 03_preprocessing.ipynb       # Feature scaling and 60/20/20 split
+│   ├── 04_modeling.ipynb            # Model training, HPO, and validation-set selection
+│   └── 05_evaluation.ipynb          # Test-set evaluation, ROC/PR curves, SHAP
 ├── src/                       # Reusable Python modules
 ├── models/                    # Saved model files (gitignored)
-├── reports/<notebook_name>/   # Generated plots and tables, one folder per notebook
+├── results/<notebook_name>/   # Generated plots and tables, one folder per notebook
 └── CLAUDE.md
 ```
 
@@ -47,6 +47,8 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
+
+> **Note:** `lightgbm` and `catboost` are included in `requirements.txt`. CatBoost is ~100 MB; first install may take a minute.
 
 ### Download the Dataset
 
@@ -61,10 +63,10 @@ data/raw/creditcard.csv
 | Step | Notebook | Description |
 |---|---|---|
 | 1 | `01_eda.ipynb` | Explore class imbalance and per-class feature distributions |
-| 2 | `02_feature_engineering.ipynb` | Significance testing, correlation heatmap, and multicollinearity-aware feature selection — exports `data/processed/selected_features.json` |
-| 3 | `03_preprocessing.ipynb` | Scale and stratified-split both a full-feature and a selected-feature variant (no resampling yet) — exports `train_full`/`test_full`/`train_selected`/`test_selected` |
-| 4 | `04_modeling.ipynb` | Compare feature sets × imbalance strategies (SMOTE, oversampling, undersampling, `class_weight`) × models, Bayesian-tune (Optuna) the top candidates, and find the minimal feature count that preserves PR-AUC — saves the best model and its metadata to `models/` |
-| 5 | `05_evaluation.ipynb` | PR-AUC (headline metric), threshold tuning, a single confusion matrix, feature importance, and SHAP-based interpretability |
+| 2 | `02_feature_engineering.ipynb` | Significance testing (Mann-Whitney + Welch, α=0.001), correlation heatmap, and multicollinearity-aware feature selection — exports `selected_features.json` and `mannwhitney_features.json` |
+| 3 | `03_preprocessing.ipynb` | Scale and stratified 60/20/20 split for three feature variants (full 30 / corr-filtered 28 / MW-significant 24) — exports 9 CSVs (`train/val/test × full/selected/mannwhitney`) |
+| 4 | `04_modeling.ipynb` | Coarse-screen 60 combos (3 feat sets × 4 imbalance strategies × 5 models: LR, RF, XGBoost, LightGBM, CatBoost) with 5-fold CV, tune top 5 with Optuna + ASHA pruning, select final model on the val set — saves `models/best_model.pkl` and metadata |
+| 5 | `05_evaluation.ipynb` | First-look at test-set performance: PR-AUC (headline), ROC curve, threshold tuning, confusion matrix, 7-metric table (accuracy/F1/sensitivity/specificity/PPV/NPV/Youden), feature importance, and SHAP interpretability via `TreeExplainer` |
 
 ## Evaluation Metrics
 

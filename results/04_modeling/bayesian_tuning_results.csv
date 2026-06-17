@@ -1,0 +1,6 @@
+feature_set,imbalance_strategy,model,best_cv_prauc,best_params
+full,random_over,xgboost,0.8666722107639302,"{""n_estimators"": 229, ""max_depth"": 9, ""learning_rate"": 0.1399546811388897, ""subsample"": 0.6374264744976315, ""colsample_bytree"": 0.9173029265728927}"
+full,class_weight,xgboost,0.8641780127438791,"{""n_estimators"": 122, ""max_depth"": 9, ""learning_rate"": 0.1062272193666865, ""subsample"": 0.8947385331597324, ""colsample_bytree"": 0.6738167152482913}"
+selected,random_over,xgboost,0.8635301463944888,"{""n_estimators"": 142, ""max_depth"": 10, ""learning_rate"": 0.16512959604161906, ""subsample"": 0.6653139182680297, ""colsample_bytree"": 0.6511397506377327}"
+selected,class_weight,xgboost,0.8621581102852481,"{""n_estimators"": 256, ""max_depth"": 10, ""learning_rate"": 0.09474347727058283, ""subsample"": 0.9052682321579768, ""colsample_bytree"": 0.9625632338704709}"
+mannwhitney,class_weight,xgboost,0.8594080296587737,"{""n_estimators"": 144, ""max_depth"": 10, ""learning_rate"": 0.1205712628744377, ""subsample"": 0.7993292420985183, ""colsample_bytree"": 0.5780093202212182}"

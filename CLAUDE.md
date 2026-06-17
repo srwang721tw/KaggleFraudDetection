@@ -10,12 +10,22 @@ Kaggle credit card fraud detection project. The goal is to build a model that cl
 
 ```
 data/raw/          ← creditcard.csv (gitignored, download from Kaggle)
-data/processed/    ← feature-engineered or resampled datasets
-notebooks/         ← Jupyter notebooks for EDA, feature engineering, and modeling
+data/processed/    ← 9 CSVs: {train,val,test}_{full,selected,mannwhitney}.csv (gitignored)
+notebooks/         ← Jupyter notebooks (01–05, run in order)
 src/               ← reusable Python modules
 models/            ← serialized trained models (gitignored)
-reports/<notebook_name>/ ← plots and outputs, organized per notebook
+results/<notebook_name>/ ← plots and outputs, organized per notebook
 ```
+
+## Notebook Pipeline
+
+| # | Notebook | Key outputs |
+|---|---|---|
+| 01 | `01_eda.ipynb` | class distribution, amount/time plots, feature distributions |
+| 02 | `02_feature_engineering.ipynb` | significance_test.csv, correlation_heatmap.png, selected_features.json, mannwhitney_features.json |
+| 03 | `03_preprocessing.ipynb` | 9 CSVs (60/20/20 split × 3 feature sets) |
+| 04 | `04_modeling.ipynb` | coarse_screening_results.csv (60 rows), bayesian_tuning_results.csv, best_model.pkl, best_model_metadata.json |
+| 05 | `05_evaluation.ipynb` | pr_curve.png, roc_curve.png, confusion_matrix.png, classification_metrics.csv, SHAP plots |
 
 ## Dataset
 
